@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage • Your Travel Stories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-cream: #faf9f6;
+            --bg-warm: #f5f1eb;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --accent-sage: #87a878;
+            --accent-clay: #d4a373;
+            --accent-ochre: #ccd5ae;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+            --edit-bg: #fff9e6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(250, 249, 246, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent-sage);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-sage);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-warm);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 3rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent-sage);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .hero-image {
+            position: absolute;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-image.main {
+            width: 70%;
+            height: 80%;
+            top: 10%;
+            left: 0;
+            z-index: 2;
+        }
+
+        .hero-image.secondary {
+            width: 50%;
+            height: 50%;
+            bottom: 0;
+            right: 0;
+            z-index: 3;
+            border: 5px solid var(--bg-cream);
+        }
+
+        .hero-image.tertiary {
+            width: 40%;
+            height: 40%;
+            top: 0;
+            right: 10%;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        /* Albums Section */
+        .section {
+            padding: 4rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .album-card {
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .album-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .album-cover {
+            height: 240px;
+            background: linear-gradient(135deg, var(--accent-ochre) 0%, var(--accent-sage) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .album-count {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .album-info {
+            padding: 1.5rem;
+        }
+
+        .album-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .album-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .album-actions {
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .album-card:hover .album-actions {
+            opacity: 1;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-warm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: var(--accent-sage);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .icon-btn.delete:hover {
+            background: #e74c3c;
+        }
+
+        /* Gallery View */
+        .gallery-view {
+            display: none;
+            padding: 6rem 3rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .gallery-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .gallery-title:hover {
+            background: var(--bg-warm);
+        }
+
+        .gallery-title[contenteditable="true"] {
+            outline: 2px solid var(--accent-sage);
+            background: var(--edit-bg);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .photo-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: grab;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .photo-card.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+            cursor: grabbing;
+        }
+
+        .photo-card.drag-over {
+            border: 3px dashed var(--accent-sage);
+        }
+
+        .photo-image-container {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .photo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .overlay-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .overlay-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .overlay-btn.delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .overlay-btn.cover {
+            background: var(--accent-sage);
+            color: white;
+        }
+
+        .cover-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-sage);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .photo-info {
+            padding: 1.2rem;
+        }
+
+        .editable-field {
+            border: 2px solid transparent;
+            border-radius: 6px;
+            padding: 0.2rem 0.5rem;
+            margin: -0.2rem -0.5rem;
+            transition: all 0.3s;
+            cursor: text;
+        }
+
+        .editable-field:hover {
+            background: var(--bg-warm);
+            border-color: #ddd;
+        }
+
+        .editable-field:focus {
+            outline: none;
+            background: var(--edit-bg);
+            border-color: var(--accent-sage);
+        }
+
+        .photo-location {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent-sage);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-caption {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .photo-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .drag-handle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .photo-card:hover .drag-handle {
+            opacity: 1;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Upload Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+
+        .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-warm);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: var(--text-primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .upload-zone {
+            border: 2px dashed #ddd;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent-sage);
+            background: rgba(135, 168, 120, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .preview-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .preview-thumb {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-thumb img, .preview-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-thumb {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-sage);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Edit Instructions */
+        .edit-hint {
+            background: var(--edit-bg);
+            border-left: 4px solid var(--accent-sage);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .edit-hint strong {
+            color: var(--text-primary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            .hero-visual {
+                height: 400px;
+                order: -1;
+            }
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+            .nav {
+                padding: 1rem 1.5rem;
+            }
+            .section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .albums-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .gallery-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="logo">Voyage<span>.</span></div>
+        <div class="nav-actions">
+            <button class="btn btn-secondary" onclick="showSection('home')">Albums</button>
+            <button class="btn btn-primary" onclick="openUploadModal()">
+                <span>+</span> Add Photos
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="homeSection">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Preserve your wanderlust moments</h1>
+                <p>Curate beautiful travel albums. Click any text to edit. Drag photos to rearrange. Make it yours.</p>
+                <button class="btn btn-primary" onclick="openUploadModal()" style="padding: 1rem 2rem; font-size: 1rem;">
+                    Start Your Collection
+                </button>
+                
+                <div class="hero-stats" id="heroStats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalAlbums">0</span>
+                        <span class="stat-label">Albums</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalPhotos">0</span>
+                        <span class="stat-label">Memories</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalPlaces">0</span>
+                        <span class="stat-label">Places</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="hero-image main">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800" alt="Travel">
+                </div>
+                <div class="hero-image secondary">
+                    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600" alt="Beach">
+                </div>
+                <div class="hero-image tertiary">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500" alt="Mountains">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Albums Grid -->
+    <section class="section" id="albumsSection">
+        <div class="section-header">
+            <h2 class="section-title">Your Collections</h2>
+            <button class="btn btn-secondary" onclick="createNewAlbum()">
+                <span>+</span> New Album
+            </button>
+        </div>
+        
+        <div class="albums-grid" id="albumsGrid">
+            <!-- Albums rendered here -->
+        </div>
+    </section>
+
+    <!-- Gallery View -->
+    <section class="gallery-view" id="gallerySection">
+        <div class="gallery-header">
+            <div class="back-btn" onclick="showSection('home')">
+                <span>←</span> Back to Albums
+            </div>
+            <h2 class="gallery-title" id="galleryTitle" onclick="makeTitleEditable(this)">Album Name</h2>
+            <button class="btn btn-primary" onclick="openUploadModal()">
+                <span>+</span> Add to Album
+            </button>
+        </div>
+
+        <div class="edit-hint">
+            <strong>💡 Tip:</strong> Click any photo's location, caption, or date to edit. Drag the ⋮⋮ handle to reorder. Hover photo and click ⭐ to set as cover.
+        </div>
+        
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Photos rendered here -->
+        </div>
+        
+        <div class="empty-state" id="galleryEmpty" style="display: none;">
+            <div class="empty-icon">📷</div>
+            <h3 class="empty-title">No memories yet</h3>
+            <p>Add photos to start your visual story</p>
+        </div>
+    </section>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Memories</h3>
+                <button class="close-btn" onclick="closeUploadModal()">×</button>
+            </div>
+            
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📤</div>
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 500;">Drop photos here</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">or click to browse • Select multiple files</p>
+                <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display: none;" onchange="handleFiles(this.files)">
+            </div>
+            
+            <div class="preview-list" id="previewList"></div>
+            
+            <div class="form-group">
+                <label class="form-label">Album</label>
+                <select class="form-input" id="albumSelect"></select>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" id="locationInput" placeholder="City, Country">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="dateInput">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Caption (optional)</label>
+                <input type="text" class="form-input" id="captionInput" placeholder="Describe this moment...">
+            </div>
+            
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="saveBtn" onclick="savePhotos()" disabled>
+                Save Memories
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Data
+        let albums = JSON.parse(localStorage.getItem('voyageAlbums')) || [
+            {
+                id: 1,
+                title: 'Summer in Japan',
+                cover: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
+                created: '2024-01-15',
+                photos: [
+                    {
+                        id: 101,
+                        url: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
+                        location: 'Tokyo, Japan',
+                        date: '2024-01-10',
+                        caption: 'Shibuya nights'
+                    },
+                    {
+                        id: 102,
+                        url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
+                        location: 'Kyoto, Japan',
+                        date: '2024-01-12',
+                        caption: 'Temple gardens'
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Mediterranean Escape',
+                cover: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800',
+                created: '2024-02-20',
+                photos: []
+            }
+        ];
+        
+        let currentAlbumId = null;
+        let pendingFiles = [];
+        let dragSrcEl = null;
+        let dragSrcIndex = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+            renderAlbums();
+            setupDragDrop();
+            document.getElementById('dateInput').valueAsDate = new Date();
+        });
+
+        // Navigation
+        function showSection(section) {
+            if (section === 'home') {
+                document.getElementById('homeSection').style.display = 'block';
+                document.getElementById('albumsSection').style.display = 'block';
+                document.getElementById('gallerySection').style.display = 'none';
+                currentAlbumId = null;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openAlbum(albumId) {
+            currentAlbumId = albumId;
+            const album = albums.find(a => a.id === albumId);
+            if (!album) return;
+            
+            document.getElementById('galleryTitle').textContent = album.title;
+            renderGallery(album);
+            
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('albumsSection').style.display = 'none';
+            document.getElementById('gallerySection').style.display = 'block';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Rendering
+        function renderAlbums() {
+            const grid = document.getElementById('albumsGrid');
+            grid.innerHTML = '';
+            
+            albums.forEach(album => {
+                const card = document.createElement('div');
+                card.className = 'album-card';
+                card.onclick = () => openAlbum(album.id);
+                
+                const coverUrl = album.cover || (album.photos[0]?.url) || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800';
+                
+                card.innerHTML = `
+                    <div class="album-cover">
+                        <img src="${coverUrl}" alt="${album.title}">
+                        <div class="album-count">${album.photos.length} photos</div>
+                    </div>
+                    <div class="album-info">
+                        <h3 class="album-title">${album.title}</h3>
+                        <div class="album-meta">
+                            <span>${album.created}</span>
+                            <div class="album-actions" onclick="event.stopPropagation()">
+                                <button class="icon-btn" onclick="editAlbumTitle(${album.id})" title="Edit name">✏️</button>
+                                <button class="icon-btn delete" onclick="deleteAlbum(${album.id})" title="Delete">🗑</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function renderGallery(album) {
+            const grid = document.getElementById('galleryGrid');
+            const empty = document.getElementById('galleryEmpty');
+            
+            grid.innerHTML = '';
+            
+            if (album.photos.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+            
+            album.photos.forEach((photo, index) => {
+                const card = createPhotoCard(photo, index, album);
+                grid.appendChild(card);
+            });
+        }
+
+        function createPhotoCard(photo, index, album) {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.draggable = true;
+            card.dataset.index = index;
+            
+            const isCover = album.cover === photo.url;
+            
+            card.innerHTML = `
+                <div class="photo-image-container">
+                    ${isCover ? '<div class="cover-badge">★ COVER</div>' : ''}
+                    <img src="${photo.url}" class="photo-image" alt="${photo.caption}">
+                    <div class="drag-handle" title="Drag to reorder">⋮⋮</div>
+                    <div class="photo-overlay">
+                        <button class="overlay-btn cover" onclick="setAsCover(${index})" title="Set as album cover">★</button>
+                        <button class="overlay-btn delete" onclick="deletePhoto(${index})" title="Delete photo">🗑</button>
+                    </div>
+                </div>
+                <div class="photo-info">
+                    <div class="photo-location editable-field" 
+                         contenteditable="true" 
+                         onblur="updatePhotoField(${index}, 'location', this.innerText)"
+                         onkeydown="handleEnter(event, this)">📍 ${photo.location || 'Click to add location'}</div>
+                    <h4 class="photo-caption editable-field" 
+                        contenteditable="true" 
+                        onblur="updatePhotoField(${index}, 'caption', this.innerText)"
+                        onkeydown="handleEnter(event, this)">${photo.caption || 'Click to add caption'}</h4>
+                    <div class="photo-date editable-field" 
+                         contenteditable="true" 
+                         onblur="updatePhotoField(${index}, 'date', this.innerText)"
+                         onkeydown="handleEnter(event, this)">${photo.date || 'Click to add date'}</div>
+                </div>
+            `;
+            
+            // Drag events
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+            card.addEventListener('dragover', handleDragOver);
+            card.addEventListener('drop', handleDrop);
+            card.addEventListener('dragenter', handleDragEnter);
+            card.addEventListener('dragleave', handleDragLeave);
+            
+            return card;
+        }
+
+        // Drag and Drop
+        function handleDragStart(e) {
+            dragSrcEl = this;
+            dragSrcIndex = parseInt(this.dataset.index);
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.photo-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) e.preventDefault();
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            if (dragSrcEl !== this) {
+                const dragDestIndex = parseInt(this.dataset.index);
+                
+                const album = albums.find(a => a.id === currentAlbumId);
+                if (album) {
+                    // Reorder array
+                    const item = album.photos.splice(dragSrcIndex, 1)[0];
+                    album.photos.splice(dragDestIndex, 0, item);
+                    
+                    saveData();
+                    renderGallery(album);
+                    showToast('Photo reordered');
+                }
+            }
+            return false;
+        }
+
+        // Editing Functions
+        function updatePhotoField(index, field, value) {
+            const album = albums.find(a => a.id === currentAlbumId);
+            if (album && album.photos[index]) {
+                // Remove emoji prefix for location if present
+                if (field === 'location') {
+                    value = value.replace(/^📍\s*/, '').trim();
+                }
+                album.photos[index][field] = value.trim();
+                saveData();
+                showToast(`${field} updated`);
+            }
+        }
+
+        function handleEnter(e, element) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                element.blur();
+            }
+        }
+
+        function makeTitleEditable(element) {
+            element.contentEditable = true;
+            element.focus();
+            
+            // Select all text
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            
+            element.onblur = function() {
+                element.contentEditable = false;
+                const newTitle = this.innerText.trim();
+                const album = albums.find(a => a.id === currentAlbumId);
+                if (album && newTitle && newTitle !== album.title) {
+                    album.title = newTitle;
+                    saveData();
+                    renderAlbums();
+                    showToast('Album title updated');
+                }
+            };
+            
+            element.onkeydown = function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.blur();
+                }
+            };
+        }
+
+        function editAlbumTitle(id) {
+            const album = albums.find(a => a.id === id);
+            if (!album) return;
+            
+            const newTitle = prompt('Edit album name:', album.title);
+            if (newTitle && newTitle.trim() && newTitle !== album.title) {
+                album.title = newTitle.trim();
+                saveData();
+                renderAlbums();
+                if (currentAlbumId === id) {
+                    document.getElementById('galleryTitle').textContent = newTitle;
+                }
+                showToast('Album renamed');
+            }
+        }
+
+        function setAsCover(index) {
+            const album = albums.find(a => a.id === currentAlbumId);
+            if (album && album.photos[index]) {
+                album.cover = album.photos[index].url;
+                saveData();
+                renderGallery(album);
+                renderAlbums(); // Update cover in album grid
+                showToast('Set as album cover');
+            }
+        }
+
+        // Album Management
+        function createNewAlbum() {
+            const name = prompt('Name your new album:');
+            if (!name) return;
+            
+            const newAlbum = {
+                id: Date.now(),
+                title: name,
+                cover: null,
+                created: new Date().toISOString().split('T')[0],
+                photos: []
+            };
+            
+            albums.push(newAlbum);
+            saveData();
+            renderAlbums();
+            updateStats();
+            showToast('Album created');
+        }
+
+        function deleteAlbum(id) {
+            if (albums.length <= 1) {
+                showToast('Keep at least one album!');
+                return;
+            }
+            if (!confirm('Delete this album and all its photos?')) return;
+            
+            albums = albums.filter(a => a.id !== id);
+            if (currentAlbumId === id) {
+                currentAlbumId = null;
+                showSection('home');
+            }
+            saveData();
+            renderAlbums();
+            updateStats();
+            showToast('Album deleted');
+        }
+
+        // Upload Modal
+        function openUploadModal() {
+            const select = document.getElementById('albumSelect');
+            select.innerHTML = '';
+            
+            albums.forEach(album => {
+                const option = document.createElement('option');
+                option.value = album.id;
+                option.textContent = album.title;
+                if (currentAlbumId && album.id === currentAlbumId) option.selected = true;
+                select.appendChild(option);
+            });
+            
+            const newOption = document.createElement('option');
+            newOption.value = 'new';
+            newOption.textContent = '+ Create New Album';
+            select.appendChild(newOption);
+            
+            document.getElementById('uploadModal').classList.add('active');
+            pendingFiles = [];
+            updatePreview();
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+            pendingFiles = [];
+            document.getElementById('fileInput').value = '';
+        }
+
+        // File Handling
+        function setupDragDrop() {
+            const zone = document.getElementById('uploadZone');
+            
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            });
+            
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+            
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+        }
+
+        function handleFiles(files) {
+            const validFiles = Array.from(files).filter(f => 
+                f.type.startsWith('image/') || f.type.startsWith('video/')
+            );
+            
+            validFiles.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    pendingFiles.push({
+                        url: e.target.result,
+                        type: file.type
+                    });
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updatePreview() {
+            const list = document.getElementById('previewList');
+            const saveBtn = document.getElementById('saveBtn');
+            
+            list.innerHTML = '';
+            
+            if (pendingFiles.length === 0) {
+                saveBtn.disabled = true;
+                return;
+            }
+            
+            saveBtn.disabled = false;
+            
+            pendingFiles.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = 'preview-thumb';
+                
+                const isVideo = file.type.startsWith('video');
+                div.innerHTML = `
+                    ${isVideo ? `<video src="${file.url}" muted></video>` : `<img src="${file.url}">`}
+                    <button class="remove-thumb" onclick="removeFile(${index})">×</button>
+                `;
+                
+                list.appendChild(div);
+            });
+        }
+
+        function removeFile(index) {
+            pendingFiles.splice(index, 1);
+            updatePreview();
+        }
+
+        function savePhotos() {
+            const albumId = document.getElementById('albumSelect').value;
+            const location = document.getElementById('locationInput').value;
+            const date = document.getElementById('dateInput').value;
+            const caption = document.getElementById('captionInput').value;
+            
+            let targetAlbum;
+            
+            if (albumId === 'new') {
+                const name = prompt('Name for new album:');
+                if (!name) return;
+                targetAlbum = {
+                    id: Date.now(),
+                    title: name,
+                    cover: null,
+                    created: new Date().toISOString().split('T')[0],
+                    photos: []
+                };
+                albums.push(targetAlbum);
+            } else {
+                targetAlbum = albums.find(a => a.id == albumId);
+            }
+            
+            if (!targetAlbum) return;
+            
+            pendingFiles.forEach((file, idx) => {
+                targetAlbum.photos.push({
+                    id: Date.now() + idx,
+                    url: file.url,
+                    location: location,
+                    date: date,
+                    caption: caption || `Memory ${targetAlbum.photos.length + idx + 1}`
+                });
+            });
+            
+            // Set first photo as cover if no cover exists
+            if (!targetAlbum.cover && targetAlbum.photos.length > 0) {
+                targetAlbum.cover = targetAlbum.photos[0].url;
+            }
+            
+            saveData();
+            closeUploadModal();
+            renderAlbums();
+            updateStats();
+            
+            if (currentAlbumId === targetAlbum.id || albumId === 'new') {
+                openAlbum(targetAlbum.id);
+            }
+            
+            showToast(`${pendingFiles.length} photos added`);
+            
+            // Reset form
+            document.getElementById('locationInput').value = '';
+            document.getElementById('captionInput').value = '';
+        }
+
+        function deletePhoto(index) {
+            if (!confirm('Remove this photo?')) return;
+            const album = albums.find(a => a.id === currentAlbumId);
+            if (album) {
+                const deletedPhoto = album.photos[index];
+                album.photos.splice(index, 1);
+                
+                // Update cover if deleted was cover
+                if (album.cover === deletedPhoto.url && album.photos.length > 0) {
+                    album.cover = album.photos[0].url;
+                } else if (album.photos.length === 0) {
+                    album.cover = null;
+                }
+                
+                saveData();
+                renderGallery(album);
+                renderAlbums();
+                updateStats();
+                showToast('Photo removed');
+            }
+        }
+
+        // Storage & Stats
+        function saveData() {
+            localStorage.setItem('voyageAlbums', JSON.stringify(albums));
+        }
+
+        function updateStats() {
+            const totalAlbums = albums.length;
+            const totalPhotos = albums.reduce((sum, a) => sum + a.photos.length, 0);
+            const places = new Set(albums.flatMap(a => a.photos.map(p => p.location).filter(Boolean))).size;
+            
+            document.getElementById('totalAlbums').textContent = totalAlbums;
+            document.getElementById('totalPhotos').textContent = totalPhotos;
+            document.getElementById('totalPlaces').textContent = places;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('uploadModal').addEventListener('click', (e) => {
+            if (e.target.id === 'uploadModal') closeUploadModal();
+        });
+    </script>
+</body>
+</html>
